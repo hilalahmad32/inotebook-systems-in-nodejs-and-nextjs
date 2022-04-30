@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Navbar from '../../components/Navbar'
+import { toast } from 'react-toastify';
+
 const UpdateNotes = () => {
     const router = useRouter()
     const [notes, setNotes] = useState({
@@ -35,7 +37,9 @@ const UpdateNotes = () => {
         })).json();
         if (res.success) {
             setIsLoading(false)
-            alert(res.message)
+            toast(res.message, {
+                type: 'success'
+            });
             setNotes({
                 title: '',
                 description: '',
@@ -43,7 +47,10 @@ const UpdateNotes = () => {
             });
             router.push('/')
         } else {
-            alert(res.message)
+            setIsLoading(false)
+            toast(res.message, {
+                type: 'error'
+            });
         }
     }
     // get notes by id

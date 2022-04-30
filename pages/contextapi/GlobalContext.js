@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { useRouter } from 'next/router'
 // create context
+
 export const GlobalContext = createContext({})
 // create global provider
 const GlobalProvider = ({ children }) => {

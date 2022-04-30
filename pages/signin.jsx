@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify';
+
 const signin = () => {
     const [users, setUsers] = useState({
         email: '',
@@ -34,7 +36,9 @@ const signin = () => {
         })).json();
         if (res.success) {
             setIsLoading(false)
-            alert(res.message);
+            toast(res.message, {
+                type: 'success'
+            });
             localStorage.setItem('access_token', res.authToken)
             setUsers({
                 email: '',
@@ -43,7 +47,9 @@ const signin = () => {
             router.push('/')
         } else {
             setIsLoading(false)
-            alert(res.message)
+            toast(res.message, {
+                type: 'error'
+            });
         }
     }
     useEffect(() => {

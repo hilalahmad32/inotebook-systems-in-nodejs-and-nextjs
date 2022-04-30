@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { GlobalContext } from '../pages/contextapi/GlobalContext'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify';
 
 const CreateNoteForm = () => {
   // use useRouter
@@ -46,7 +47,9 @@ const CreateNoteForm = () => {
     })).json();
     if (res.success) {
       setIsLoading(false)
-      alert(res.message);
+      toast(res.message, {
+        type: 'success'
+      });
       setNotes({
         title: '',
         description: '',
@@ -57,7 +60,9 @@ const CreateNoteForm = () => {
     }
     else {
       setIsLoading(false)
-      alert(res.message);
+      toast(res.message, {
+        type: 'error'
+      });
     }
   }
   return (

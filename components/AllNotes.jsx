@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { toast } from 'react-toastify';
+
 const AllNotes = () => {
     const [notes, setNotes] = useState([])
     // use loading
@@ -24,10 +26,14 @@ const AllNotes = () => {
             }
         })).json();
         if (res.success) {
-            alert(res.message);
+            toast(res.message, {
+                type: 'success'
+            });
             getNotes();
         } else {
-            alert(res.message)
+            toast(res.message, {
+                type: 'error'
+            });
         }
     }
 
@@ -37,10 +43,14 @@ const AllNotes = () => {
             method: 'DELETE'
         })).json();
         if (res.success) {
-            alert(res.message);
+            toast(res.message, {
+                type: 'success'
+            });
             getNotes();
         } else {
-            alert(res.message)
+            toast(res.message, {
+                type: 'error'
+            });
         }
     }
     useEffect(() => {
