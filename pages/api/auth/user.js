@@ -1,33 +1,24 @@
 import nc from 'next-connect';
-import jwt from 'jsonwebtoken'
 import User from '../../../models/User';
+import auth from '../middleware/auth';
 const JWT_SECRET = 'HILALAHMADKHANISAPROGRAMMERWHOCANDEVELOPEDANYWEBSITEINMERNANDMEVNANDMENN'
 
 const handler = nc()
+    // use middleware
+    .use(auth)
     // get authenticated user
     .get(async (req, res) => {
         try {
-            // get token
-            const { cookies } = req;
-            const token = cookies.access_token;
-            if (!token) {
+            // get users by user_id
+            const users = await User.findById({ _id: req.user }).select('-password')
+            if (users) {
                 res.send({
-                    success: false,
-                    message: 'Unauthorized'
+                    success: true,
+                    users: users
                 })
-            } else {
-                // verify token and get user_id
-                const { user_id } = jwt.verify(token, JWT_SECRET);
-                // get users by user_id
-                const users = await User.findById({ _id: user_id }).select('-password')
-                if (users) {
-                    res.send({
-                        success: true,
-                        users: users
-                    })
-                }
             }
-        } catch (error) {
+        }
+        catch (error) {
             res.send({
                 success: false,
                 message: error.message

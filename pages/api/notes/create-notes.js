@@ -1,7 +1,9 @@
 import nc from 'next-connect'
 import Notes from '../../../models/Notes';
+import auth from '../middleware/auth';
 
 const handler = nc()
+    .use(auth)
     .post(async (req, res) => {
         try {
             // destructure the req body

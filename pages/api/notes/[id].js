@@ -1,6 +1,8 @@
 import Notes from '../../../models/Notes';
 import nc from 'next-connect'
+import auth from '../middleware/auth';
 const handler = nc()
+    .use(auth)
     .delete(async (req, res) => {
         try {
             const id = req.query.id;

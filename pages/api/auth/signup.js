@@ -2,7 +2,6 @@ import nc from 'next-connect';
 import User from '../../../models/User';
 import bcryptjs from 'bcryptjs'
 import connectDb from '../../../connection/config';
-import jwt from 'jsonwebtoken'
 // check connection 
 connectDb()
 const handler = nc()

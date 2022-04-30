@@ -1,29 +1,18 @@
 import nc from 'next-connect'
 import Notes from '../../../models/Notes';
-import jwt from 'jsonwebtoken'
+import auth from '../middleware/auth';
 const JWT_SECRET = 'HILALAHMADKHANISAPROGRAMMERWHOCANDEVELOPEDANYWEBSITEINMERNANDMEVNANDMENN'
 const handler = nc()
+    // use middleware
+    .use(auth)
     .get(async (req, res) => {
         try {
-            // get cookie
-            const { cookies } = req;
-            // get token
-            const token = cookies.access_token;
-            if (token) {
-                // get user_id and verify jwt
-                const { user_id } = jwt.verify(token, JWT_SECRET);
-                // get all notes
-                const notes = await Notes.find({ user_id }).populate();
-                if (notes) {
-                    res.send({
-                        success: true,
-                        notes: notes
-                    })
-                }
-            } else {
+            // get all notes
+            const notes = await Notes.find({ user_id: req.user }).populate();
+            if (notes) {
                 res.send({
-                    success: false,
-                    message: 'Unauthorized'
+                    success: true,
+                    notes: notes
                 })
             }
         } catch (error) {
