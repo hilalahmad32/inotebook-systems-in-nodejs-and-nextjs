@@ -15,6 +15,22 @@ const AllNotes = () => {
 
         }
     }
+    // clone of a Notes
+    const cloneNotes = async (id) => {
+        const res = await (await fetch(`../api/notes/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })).json();
+        if (res.success) {
+            alert(res.message);
+            getNotes();
+        } else {
+            alert(res.message)
+        }
+    }
+
     // delete notes 
     const deleteNotes = async (id) => {
         const res = await (await fetch(`../api/notes/${id}`, {
@@ -60,7 +76,7 @@ const AllNotes = () => {
                                         <button className="bg-blue-500 rounded py-2 px-6 text-white hover:bg-blue-600 text-sm">Edit</button>
                                     </Link>
                                     <button className="bg-red-700 rounded py-2 px-6 text-white hover:bg-red-800 text-sm ml-3" onClick={() => { deleteNotes(val._id) }}>Delete</button>
-                                    <button className="bg-green-700 rounded py-2 px-6 text-white hover:bg-green-800 text-sm ml-3">Clone</button>
+                                    <button onClick={() => { cloneNotes(val._id) }} className="bg-green-700 rounded py-2 px-6 text-white hover:bg-green-800 text-sm ml-3">Clone</button>
                                 </div>
                             </div>
 
